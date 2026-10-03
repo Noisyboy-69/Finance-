@@ -1,9 +1,12 @@
-name: Build Final Android APK
+name: Build Finance APK
 
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -27,19 +30,19 @@ jobs:
           cache: true
 
       - name: Dependencies
-        working-directory: gestore_finanze_v11
         run: flutter pub get
 
       - name: Analyze
-        working-directory: gestore_finanze_v11
         run: flutter analyze
 
       - name: Build APK
-        working-directory: gestore_finanze_v11
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.workers.max=2
         run: flutter build apk --release --android-skip-build-dependency-validation
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Finance-final-release
-          path: gestore_finanze_v11/build/app/outputs/flutter-apk/app-release.apk
+          name: Gestore-Finanze-release
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
