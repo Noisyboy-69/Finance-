@@ -38,33 +38,36 @@ jobs:
       - name: Analyze
         run: flutter analyze lib --no-fatal-infos
 
-      - name: Build APK
+      - name: Build APK with Gradle
+        working-directory: android
         env:
           GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.workers.max=2 -Dorg.gradle.vfs.watch=false
         run: |
-          set +e
-          flutter build apk --release --android-skip-build-dependency-validation --verbose
-          FLUTTER_EXIT=$?
-          set -e
+          chmod +x gradlew
+          ./gradlew :app:assembleRelease --no-daemon --stacktrace
 
-          if [ -f "build/app/outputs/flutter-apk/app-release.apk" ]; then
-            echo "Flutter output found."
-            exit 0
+      - name: Locate APK
+        run: |
+          echo "APK files produced by Gradle:"
+          find android/app/build/outputs -type f -name '*.apk' -print || true
+
+          APK="$(find android/app/build/outputs -type f -name '*.apk' | head -n 1)"
+
+          if [ -z "$APK" ]; then
+            echo "No APK was produced."
+            echo "Relevant output tree:"
+            find android/app/build -maxdepth 5 -type f | sort | tail -200 || true
+            exit 1
           fi
 
-          if [ -f "android/app/build/outputs/apk/release/app-release.apk" ]; then
-            echo "Gradle produced the APK; copying it to Flutter's expected artifact path."
-            mkdir -p build/app/outputs/flutter-apk
-            cp "android/app/build/outputs/apk/release/app-release.apk" "build/app/outputs/flutter-apk/app-release.apk"
-            exit 0
-          fi
-
-          echo "No release APK found. Flutter exit code: $FLUTTER_EXIT"
-          exit $FLUTTER_EXIT
+          mkdir -p build/app/outputs/flutter-apk
+          cp "$APK" build/app/outputs/flutter-apk/app-release.apk
+          ls -lh build/app/outputs/flutter-apk/app-release.apk
 
       - name: Verify APK
         run: |
-          test -f build/app/outputs/flutter-apk/app-release.apk
+          test -s build/app/outputs/flutter-apk/app-release.apk
+          file build/app/outputs/flutter-apk/app-release.apk
           ls -lh build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload APK
