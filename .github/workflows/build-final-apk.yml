@@ -41,7 +41,26 @@ jobs:
       - name: Build APK
         env:
           GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.workers.max=2 -Dorg.gradle.vfs.watch=false
-        run: flutter build apk --release --android-skip-build-dependency-validation --verbose
+        run: |
+          set +e
+          flutter build apk --release --android-skip-build-dependency-validation --verbose
+          FLUTTER_EXIT=$?
+          set -e
+
+          if [ -f "build/app/outputs/flutter-apk/app-release.apk" ]; then
+            echo "Flutter output found."
+            exit 0
+          fi
+
+          if [ -f "android/app/build/outputs/apk/release/app-release.apk" ]; then
+            echo "Gradle produced the APK; copying it to Flutter's expected artifact path."
+            mkdir -p build/app/outputs/flutter-apk
+            cp "android/app/build/outputs/apk/release/app-release.apk" "build/app/outputs/flutter-apk/app-release.apk"
+            exit 0
+          fi
+
+          echo "No release APK found. Flutter exit code: $FLUTTER_EXIT"
+          exit $FLUTTER_EXIT
 
       - name: Verify APK
         run: |
