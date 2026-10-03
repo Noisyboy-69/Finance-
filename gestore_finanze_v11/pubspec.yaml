@@ -1,0 +1,21 @@
+name: gestore_finanze
+description: Gestore Finanze personale locale-first per Android.
+publish_to: 'none'
+version: 1.1.0+11
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  sqflite: ^2.4.2
+  path: ^1.9.1
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
