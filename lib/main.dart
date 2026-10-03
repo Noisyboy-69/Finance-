@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
     final day = int.tryParse(await db.getSetting('salary_day') ?? '27') ?? 27;
     final p = FinancialEngine.build(income:inc, account:acc, recurring:recurring, movements:movements, salaryDay:day);
     if (!mounted) return;
-    setState(()=>{plan=p,account=acc,income=inc,loading=false});
+    setState(() { plan=p; account=acc; income=inc; loading=false; });
   }
 
   Future<void> editMonth() async {

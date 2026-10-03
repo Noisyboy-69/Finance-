@@ -20,7 +20,7 @@ class _AssistantPageState extends State<AssistantPage> {
     final r=await db.recurring(); final m=await db.movements(year:now.year,month:now.month);
     final day=int.tryParse(await db.getSetting('salary_day')??'27')??27;
     final p=FinancialEngine.build(income:inc,account:acc,recurring:r,movements:m,salaryDay:day);
-    if(mounted)setState(()=>{status=p.status,spendable=p.spendableUntilSalary,income=p.income,spent=p.spentThisMonth,recurring=p.recurringMonthly,balance=p.currentBalance});
+    if(mounted)setState(() { status=p.status; spendable=p.spendableUntilSalary; income=p.income; spent=p.spentThisMonth; recurring=p.recurringMonthly; balance=p.currentBalance; });
   }
   @override Widget build(BuildContext context){
     final advice=switch(status){

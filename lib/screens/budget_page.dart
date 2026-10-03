@@ -15,7 +15,7 @@ class _BudgetPageState extends State<BudgetPage> {
   Future<void> load() async {
     final x=await AppDatabase.instance.movements();
     final r=await AppDatabase.instance.recurring();
-    if(mounted)setState(()=>{movements=x,recurring=r});
+    if(mounted)setState(() { movements=x; recurring=r; });
   }
   Future<void> addRecurring() async {
     final name=TextEditingController();
