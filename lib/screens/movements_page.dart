@@ -53,11 +53,55 @@ class _MovementsPageState extends State<MovementsPage> {
         SizedBox(height:44,child:ListView(scrollDirection:Axis.horizontal,children:['Tutti',...categories].map((x)=>Padding(padding:const EdgeInsets.only(right:8),child:ChoiceChip(label:Text(x),selected:filter==x,onSelected:(_)=>setState(()=>filter=x))).toList())),
         const SizedBox(height:12),
         if(list.isEmpty) _empty('Nessun movimento registrato. Premi “Movimento” per inserirne uno.'),
-        ...list.map((m)=>Dismissible(key:ValueKey(m.id),background:Container(color:Colors.red.shade50),onDismissed:(_)=>AppDatabase.instance.deleteMovement(m.id),child:Container(margin:const EdgeInsets.only(bottom:8),padding:const EdgeInsets.all(15),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(18)),child:Row(children:[
-          CircleAvatar(backgroundColor:m.amount<0?const Color(0xFFE2F0E5):const Color(0xFFF3E6DD),child:Icon(m.amount<0?Icons.south_west:Icons.north_east,color:green)),
-          const SizedBox(width:12),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(m.merchant,style:const TextStyle(fontWeight:FontWeight.w700)),Text('${m.category} · ${m.date.day}/${m.date.month}',style:const TextStyle(color:Colors.black54))])),
-          Text('${m.amount<0?'+':'-'} ${euro(m.amount.abs())}',style:TextStyle(fontWeight:FontWeight.w800,color:m.amount<0?green:Colors.black87)),
-        ])))),
+        ...list.map((m) => Dismissible(
+          key: ValueKey(m.id),
+          background: Container(color: Colors.red.shade50),
+          onDismissed: (_) => AppDatabase.instance.deleteMovement(m.id),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: m.amount < 0
+                      ? const Color(0xFFE2F0E5)
+                      : const Color(0xFFF3E6DD),
+                  child: Icon(
+                    m.amount < 0 ? Icons.south_west : Icons.north_east,
+                    color: green,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        m.merchant,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      Text(
+                        '${m.category} · ${m.date.day}/${m.date.month}',
+                        style: const TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  '${m.amount < 0 ? '+' : '-'} ${euro(m.amount.abs())}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: m.amount < 0 ? green : Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )),
       ]),
     );
   }

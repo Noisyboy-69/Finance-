@@ -43,12 +43,52 @@ class _GoalsPageState extends State<GoalsPage> {
       const SizedBox(height:5),const Text('Traguardi separati dal budget quotidiano.',style:TextStyle(color:Colors.black54)),
       const SizedBox(height:16),
       if(goals.isEmpty)Container(padding:const EdgeInsets.all(20),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(20)),child:const Text('Crea un obiettivo: casa, vacanza, auto, acquisto importante o altro.')),
-      ...goals.map((g)=>GestureDetector(onTap:()=>updateCurrent(g),child:Container(margin:const EdgeInsets.only(bottom:10),padding:const EdgeInsets.all(18),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(20)),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-        Row(children:[Expanded(child:Text(g.name,style:const TextStyle(fontSize:18,fontWeight:FontWeight.w800))),Text('${(g.progress*100).toStringAsFixed(0)}%')]),
-        const SizedBox(height:10),LinearProgressIndicator(value:g.progress,minHeight:8,borderRadius:BorderRadius.circular(8)),
-        const SizedBox(height:8),Text('${euro(g.current)} di ${euro(g.target)} · ${euro(g.monthlyContribution)}/mese',style:const TextStyle(color:Colors.black54)),
-        const SizedBox(height:5),const Text('Tocca per aggiornare',style:TextStyle(fontSize:12,fontWeight:FontWeight.w600)),
-      ]))),
+      ...goals.map((g) => GestureDetector(
+        onTap: () => updateCurrent(g),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      g.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                  Text('${(g.progress * 100).toStringAsFixed(0)}%'),
+                ],
+              ),
+              const SizedBox(height: 10),
+              LinearProgressIndicator(
+                value: g.progress,
+                minHeight: 8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${euro(g.current)} di ${euro(g.target)} · ${euro(g.monthlyContribution)}/mese',
+                style: const TextStyle(color: Colors.black54),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                'Tocca per aggiornare',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+      )),
     ]),
   );
 }
