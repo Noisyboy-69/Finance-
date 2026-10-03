@@ -50,7 +50,20 @@ class _MovementsPageState extends State<MovementsPage> {
         const SizedBox(height:14),
         Row(children:[_stat('Spese',euro(spent)),const SizedBox(width:10),_stat('Entrate extra',euro(earned))]),
         const SizedBox(height:14),
-        SizedBox(height:44,child:ListView(scrollDirection:Axis.horizontal,children:['Tutti',...categories].map((x)=>Padding(padding:const EdgeInsets.only(right:8),child:ChoiceChip(label:Text(x),selected:filter==x,onSelected:(_)=>setState(()=>filter=x))).toList())),
+        SizedBox(
+          height: 44,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: ['Tutti', ...categories]
+                .map<Widget>((x) => Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ChoiceChip(
+                        label: Text(x),
+                        selected: filter == x,
+                        onSelected: (_) => setState(() => filter = x))))
+                .toList(),
+          ),
+        ),
         const SizedBox(height:12),
         if(list.isEmpty) _empty('Nessun movimento registrato. Premi “Movimento” per inserirne uno.'),
         ...list.map((m) => Dismissible(
