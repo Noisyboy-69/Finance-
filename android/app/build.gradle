@@ -16,6 +16,19 @@ android {
         versionName '1.1.0'
     }
 
+    signingConfigs {
+        debug {
+            // The CI release APK is signed with the standard Android debug key
+            // so it can be installed directly on a physical test device.
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
