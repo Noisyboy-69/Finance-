@@ -38,13 +38,17 @@ jobs:
       - name: Analyze
         run: flutter analyze lib --no-fatal-infos
 
+      - name: Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+
       - name: Build APK with Gradle
         working-directory: android
         env:
           GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.workers.max=2 -Dorg.gradle.vfs.watch=false
         run: |
-          chmod +x gradlew
-          ./gradlew :app:assembleRelease --no-daemon --stacktrace
+          gradle :app:assembleRelease --no-daemon --stacktrace
 
       - name: Locate APK
         run: |
