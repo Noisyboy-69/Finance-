@@ -29,6 +29,9 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Clean
+        run: flutter clean
+
       - name: Dependencies
         run: flutter pub get
 
@@ -37,8 +40,13 @@ jobs:
 
       - name: Build APK
         env:
-          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.workers.max=2
-        run: flutter build apk --release --android-skip-build-dependency-validation
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.workers.max=2 -Dorg.gradle.vfs.watch=false
+        run: flutter build apk --release --android-skip-build-dependency-validation --verbose
+
+      - name: Verify APK
+        run: |
+          test -f build/app/outputs/flutter-apk/app-release.apk
+          ls -lh build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
