@@ -77,7 +77,16 @@ class _InvestmentsPageState extends State<InvestmentsPage> {
       const SizedBox(height:9),Text(a.summary),
       if(a.risks.isNotEmpty)Padding(padding:const EdgeInsets.only(top:8),child:Text('Attenzione: ${a.risks.join(' · ')}',style:const TextStyle(fontWeight:FontWeight.w700))),
       const SizedBox(height:9),
-      ExpansionTile(title:const Text('Scenari'),tilePadding:EdgeInsets.zero,children:a.scenarios.map((s)=>Align(alignment:Alignment.centerLeft,child:Padding(padding:const EdgeInsets.only(bottom:6),child:Text(s)))).toList()),
+      ExpansionTile(
+        title: const Text('Scenari'),
+        tilePadding: EdgeInsets.zero,
+        children: a.scenarios
+            .map<Widget>((s) => Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: Text(s))))
+            .toList()),
     ])),
   );
 }
