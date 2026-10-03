@@ -16,7 +16,7 @@ jobs:
           channel: stable
           cache: true
       - name: Prepare Android project
-        run: flutter create . --platforms=android
+        run: flutter create . --platforms=android --project-name=finance_app
       - name: Dependencies
         run: flutter pub get
       - name: Analyze
